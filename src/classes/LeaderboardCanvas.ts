@@ -46,22 +46,18 @@ export class LeaderboardCanvas {
 				userCharacter = userData.character
 					? `${userData.character}.png`
 					: Util.seedShuffle(
-						characters.filter(
-							(findAvatar: string): boolean =>
-								findAvatar !== 'Clyde.png' && findAvatar !== 'Phibi.png'
-						),
-						parseInt(discordUser.username)
-					)[0];
+							characters.filter((findAvatar) => findAvatar !== 'Clyde.png' && findAvatar !== 'Phibi.png'),
+							parseInt(discordUser.username)
+						)[0];
 			}
 
 			const level = userData ? userData.level : 0;
 
-			const displayName = discordUser.displayName
+			const displayName = discordUser.displayName;
 
 			const mainFont = 'asap';
 			const backgroundColor = '#3a3c41';
 			const mainColor = avatarsColors[userCharacter.toLowerCase().split('.')[0]!];
-			const secondaryColor = `${mainColor}90`;
 			const tertiaryColor = '#8F9396';
 
 			context.save();
