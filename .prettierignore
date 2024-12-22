@@ -1,9 +1,0 @@
-node_modules/*
-.yarn/*
-yarn.lock
-*.json
-*.yml
-.prettierignore
-.eslintignore
-.prettierrc
-readme.md

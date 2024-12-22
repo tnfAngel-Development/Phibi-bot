@@ -1,15 +1,13 @@
-export {};
+import { GatewayIntentBits } from 'discord.js';
+import { Client } from './classes/Client';
+import { DatabaseClient } from './classes/DatabaseClient';
 
-// External Imports
-import { config as dotenvConfig } from 'dotenv';
+const client = new Client({
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
+});
 
-// Local Imports
-import { PhibiClient } from './client';
+const dbClient = new DatabaseClient();
 
-// Dotenv
-dotenvConfig();
-
-// Client
-const client = new PhibiClient();
+dbClient.connect(process.env.DB_URI ?? '');
 
 client.start();
