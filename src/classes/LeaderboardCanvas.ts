@@ -8,7 +8,7 @@ import { userModel } from '../schemas/UserModel';
 import type { IUserModel } from '../schemas/UserModel';
 import { Util } from './Util';
 
-GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/Asap.ttf'), 'Asap');
+GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/Asap.ttf'), 'asap');
 
 export class LeaderboardCanvas {
 	member: GuildMember;
