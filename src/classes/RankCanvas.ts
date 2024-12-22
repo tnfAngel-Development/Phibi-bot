@@ -59,9 +59,7 @@ export class LevelCanvas {
 		const nextLevelXP = (!level ? 1 : level + 1) * levelingConfig.nextLevelXP;
 		const levelPercentage = Math.floor((currentXP / nextLevelXP) * 100);
 
-		const username = this.member.user.username;
-		const discriminator = this.member.user.discriminator;
-		const fullUsername = `${username}#${discriminator}`;
+		const displayName = this.member.user.displayName;
 
 		const mainFont = 'asap';
 		const backgroundColor = '#3a3c41';
@@ -83,15 +81,9 @@ export class LevelCanvas {
 
 		context.restore();
 
-		context.font = setFont(canvas, fullUsername, 300, mainFont, 50, 10, 'bold');
+		context.font = setFont(canvas, displayName, 300, mainFont, 50, 10, 'bold');
 		context.fillStyle = mainColor;
-		context.fillText(username, canvas.width / 2.8, canvas.height / 3.3);
-		context.fillStyle = secondaryColor;
-		context.fillText(
-			`#${discriminator}`,
-			canvas.width / 2.8 + context.measureText(username).width,
-			canvas.height / 3.3
-		);
+		context.fillText(displayName, canvas.width / 2.8, canvas.height / 3.3);
 
 		const topWords = ['Level', 'Local', 'Global'];
 

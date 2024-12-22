@@ -46,19 +46,17 @@ export class LeaderboardCanvas {
 				userCharacter = userData.character
 					? `${userData.character}.png`
 					: Util.seedShuffle(
-							characters.filter(
-								(findAvatar: string): boolean =>
-									findAvatar !== 'Clyde.png' && findAvatar !== 'Phibi.png'
-							),
-							parseInt(discordUser.discriminator)
-						)[0];
+						characters.filter(
+							(findAvatar: string): boolean =>
+								findAvatar !== 'Clyde.png' && findAvatar !== 'Phibi.png'
+						),
+						parseInt(discordUser.username)
+					)[0];
 			}
 
 			const level = userData ? userData.level : 0;
 
-			const username = discordUser.username;
-			const discriminator = discordUser.discriminator;
-			const fullUsername = `${username}#${discriminator}`;
+			const displayName = discordUser.displayName
 
 			const mainFont = 'asap';
 			const backgroundColor = '#3a3c41';
@@ -82,15 +80,9 @@ export class LeaderboardCanvas {
 
 			context.restore();
 
-			context.font = setFont(canvas, fullUsername, 300, mainFont, 50, 10, 'bold');
+			context.font = setFont(canvas, displayName, 300, mainFont, 50, 10, 'bold');
 			context.fillStyle = mainColor;
-			context.fillText(username, canvas.width / 2.8, 150 + offset);
-			context.fillStyle = secondaryColor;
-			context.fillText(
-				`#${discriminator}`,
-				canvas.width / 2.8 + context.measureText(username).width,
-				150 + offset
-			);
+			context.fillText(displayName, canvas.width / 2.8, 150 + offset);
 			context.fillStyle = tertiaryColor;
 			context.fillText(`Level: ${level} XP: ${userData.currentXP}`, canvas.width / 2.8, 200 + offset);
 		};
