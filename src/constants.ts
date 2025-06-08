@@ -10,8 +10,8 @@ export const avatarsColors: Record<string, string> = {
 
 export const levelingConfig = {
 	xpCooldown: 0,
-	xpToAdd: 1,
-	nextLevelXP: 20
+	xpToAdd: 2,
+	nextLevelXP: 30
 };
 
 export const settings = {
