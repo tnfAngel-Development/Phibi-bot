@@ -13,7 +13,10 @@ GlobalFonts.registerFromPath(
   joinPaths(__dirname, '../assets/fonts/NotoColorEmoji.ttf'),
   'Noto Color Emoji'
 );
-
+GlobalFonts.registerFromPath(
+  joinPaths(__dirname, '../assets/fonts/segoe-ui-symbol.ttf'),
+  'Segoe UI Symbol'
+);
 GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/gg sans Bold.ttf'), 'Asap');
 GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/gg sans Medium.ttf'), 'gg sans');
 
@@ -82,24 +85,35 @@ export class LevelCanvas {
 
     // Render username with emoji support
     const renderMultiFontText = (text: string, x: number, y: number, maxWidth?: number) => {
-      let currentX = x;
-      const characters = Array.from(text);
-      const regularFont = setFont(canvas, text, 300, mainFont, 50, 10, 'bold');
-      const emojiFont = regularFont.replace(mainFont, 'Noto Color Emoji');
-      
-      for (const char of characters) {
-        const isEmojiChar = char.codePointAt(0)! > 255;
-        context.font = isEmojiChar ? emojiFont : regularFont;
-        
-        if (maxWidth && currentX + context.measureText(char).width > maxWidth) {
-          context.fillText('...', currentX, y);
-          return;
-        }
-        
-        context.fillText(char, currentX, y);
-        currentX += context.measureText(char).width;
-      }
-    };
+  let currentX = x;
+  const characters = Array.from(text);
+  const regularFont = setFont(canvas, text, 300, mainFont, 50, 10, 'bold');
+  const emojiFont = regularFont.replace(mainFont, 'Noto Color Emoji');
+  const symbolFont = regularFont.replace(mainFont, 'Segoe UI Symbol'); // Add this line
+  
+  for (const char of characters) {
+    const codePoint = char.codePointAt(0)!;
+    let fontToUse = regularFont;
+    
+    if (codePoint >= 0x1F000) {
+      // Emoji range (U+1F000 and above)
+      fontToUse = emojiFont;
+    } else if (codePoint > 255) {
+      // Special characters range (non-emoji, non-ASCII)
+      fontToUse = symbolFont;
+    }
+    
+    context.font = fontToUse;
+    
+    if (maxWidth && currentX + context.measureText(char).width > maxWidth) {
+      context.fillText('...', currentX, y);
+      return;
+    }
+    
+    context.fillText(char, currentX, y);
+    currentX += context.measureText(char).width;
+  }
+};
 
     context.fillStyle = mainColor;
     renderMultiFontText(displayName, canvas.width / 2.8, canvas.height / 3.3, canvas.width - 50);
