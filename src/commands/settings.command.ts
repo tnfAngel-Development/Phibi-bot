@@ -7,7 +7,7 @@ import { userModel } from '../schemas/UserModel';
 const characterChoices = characters.map((char) => ({
 	name: char.split('.')[0]!,
 	value: char.split('.')[0]!
-}))
+}));
 
 export default new Command({
 	id: 'settings',
@@ -28,9 +28,7 @@ export default new Command({
 									.setName('new_character')
 									.setDescription('The new character you will have')
 									.setRequired(true)
-									.addChoices(
-										...characterChoices
-									)
+									.addChoices(...characterChoices)
 							)
 					)
 			)
