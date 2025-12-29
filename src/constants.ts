@@ -9,9 +9,9 @@ export const avatarsColors: Record<string, string> = {
 };
 
 export const levelingConfig = {
-	xpCooldown: 0,
-	xpToAdd: 2,
-	nextLevelXP: 30
+	xpCooldown: process.env['XP_COOLDOWN'] ? parseInt(process.env['XP_COOLDOWN']) : 60,
+	xpToAdd: process.env['XP_TO_ADD'] ? parseInt(process.env['XP_TO_ADD']) : 2,
+	nextLevelXP: process.env['NEXT_LEVEL_XP'] ? parseInt(process.env['NEXT_LEVEL_XP']) : 30
 };
 
 export const settings = {
