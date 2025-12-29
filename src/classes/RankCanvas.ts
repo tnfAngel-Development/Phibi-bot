@@ -1,6 +1,6 @@
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 import type { GuildMember } from 'discord.js';
-import { asapFontFile, backgroundImageFile, characterFiles } from '../assets';
+import { asapFontFile, characterFiles, levelBackgroundImageFile } from '../assets';
 import { avatarsColors, characters, levelingConfig } from '../constants';
 import { roundRect } from '../functions/roundRect';
 import { setFont } from '../functions/setFont';
@@ -22,7 +22,7 @@ export class LevelCanvas {
 
 		context.save();
 
-		const backgroundImage = await loadImage(backgroundImageFile);
+		const backgroundImage = await loadImage(levelBackgroundImageFile);
 
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
