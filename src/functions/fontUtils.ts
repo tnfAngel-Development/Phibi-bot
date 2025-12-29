@@ -1,11 +1,11 @@
-import { isEmoji } from './isEmoji';
+import { isEmoji } from "./isEmoji";
 
 export const getCharScript = (char: string): string => {
 	// First check if it's an emoji using improved detection
-	if (isEmoji(char)) return 'emoji';
+	if (isEmoji(char)) return "emoji";
 
 	const code = char.codePointAt(0);
-	if (code === undefined) return 'latin';
+	if (code === undefined) return "latin";
 
 	// Korean ranges
 	if (
@@ -14,7 +14,7 @@ export const getCharScript = (char: string): string => {
 		(code >= 0x3130 && code <= 0x318f)
 	) {
 		// Hangul Compatibility Jamo
-		return 'korean';
+		return "korean";
 	}
 
 	// Japanese ranges
@@ -25,7 +25,7 @@ export const getCharScript = (char: string): string => {
 		(code >= 0xff00 && code <= 0xffef)
 	) {
 		// Halfwidth and Fullwidth Forms
-		return 'japanese';
+		return "japanese";
 	}
 
 	// Chinese ranges (Simplified and Traditional)
@@ -36,11 +36,11 @@ export const getCharScript = (char: string): string => {
 		(code >= 0x2a700 && code <= 0x2b73f)
 	) {
 		// CJK Extension C
-		return 'han';
+		return "han";
 	}
 
 	// Thai range
-	if (code >= 0x0e00 && code <= 0x0e7f) return 'thai';
+	if (code >= 0x0e00 && code <= 0x0e7f) return "thai";
 
 	// Arabic range
 	if (
@@ -48,11 +48,11 @@ export const getCharScript = (char: string): string => {
 		(code >= 0x0750 && code <= 0x077f) ||
 		(code >= 0x08a0 && code <= 0x08ff)
 	) {
-		return 'arabic';
+		return "arabic";
 	}
 
 	// Other non-Latin characters
-	if (code > 255) return 'symbol';
+	if (code > 255) return "symbol";
 
-	return 'latin';
+	return "latin";
 };
