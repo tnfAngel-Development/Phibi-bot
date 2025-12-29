@@ -1,6 +1,6 @@
 *
 !src/
-!bun.lockb
+!bun.lock
 !bunfig.toml
 !package.json
 !tsconfig.json
