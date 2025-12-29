@@ -1,6 +1,6 @@
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 import type { GuildMember } from 'discord.js';
-import { asapFontFile, backgroundImageFile, characterFiles } from '../assets';
+import { asapFontFile, characterFiles, leaderboardBackgroundImageFile } from '../assets';
 import { avatarsColors, characters } from '../constants';
 import { setFont } from '../functions/setFont';
 import { userModel } from '../schemas/UserModel';
@@ -22,7 +22,7 @@ export class LeaderboardCanvas {
 
 		context.save();
 
-		const backgroundImage = await loadImage(backgroundImageFile);
+		const backgroundImage = await loadImage(leaderboardBackgroundImageFile);
 
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 

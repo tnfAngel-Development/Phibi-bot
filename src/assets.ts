@@ -10,10 +10,12 @@ import phibiCharacter from './assets/characters/Phibi.png' with { type: 'file' }
 import wumpusCharacter from './assets/characters/Wumpus.png' with { type: 'file' };
 
 import asapFont from './assets/fonts/Asap.ttf' with { type: 'file' };
-import backgroundImage from './assets/images/leaderboardBackground.png' with { type: 'file' };
+import leaderboardBackgroundImage from './assets/images/leaderboardBackground.png' with { type: 'file' };
+import levelBackgroundImage from './assets/images/levelBackground.png' with { type: 'file' };
 
 export const asapFontFile = readFileSync(asapFont);
-export const backgroundImageFile = readFileSync(backgroundImage);
+export const levelBackgroundImageFile = readFileSync(levelBackgroundImage);
+export const leaderboardBackgroundImageFile = readFileSync(leaderboardBackgroundImage);
 export const clydeCharacterFile = readFileSync(clydeCharacter);
 
 export const characterFiles: Record<(typeof characters)[number], Buffer> = {
