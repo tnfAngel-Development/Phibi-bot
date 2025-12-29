@@ -1,14 +1,13 @@
-import { readdirSync } from 'fs';
-import { join as joinPaths } from 'path';
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 import type { GuildMember } from 'discord.js';
-import { avatarsColors } from '../constants';
+import { asapFontFile, backgroundImageFile, characterFiles } from '../assets';
+import { avatarsColors, characters } from '../constants';
 import { setFont } from '../functions/setFont';
 import { userModel } from '../schemas/UserModel';
 import type { IUserModel } from '../schemas/UserModel';
 import { Util } from './Util';
 
-GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/Asap.ttf'), 'asap');
+GlobalFonts.register(asapFontFile, 'asap');
 
 export class LeaderboardCanvas {
 	member: GuildMember;
@@ -23,11 +22,9 @@ export class LeaderboardCanvas {
 
 		context.save();
 
-		const backgroundImage = await loadImage(joinPaths(__dirname, '../assets/images/leaderboardBackground.png'));
+		const backgroundImage = await loadImage(backgroundImageFile);
 
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-
-		const characters = readdirSync(joinPaths(__dirname, '../assets/characters/'));
 
 		const addUser = async (userData: IUserModel, index: number) => {
 			const offset = 160 * index;
@@ -36,10 +33,10 @@ export class LeaderboardCanvas {
 				(await this.member.client.users.fetch(userData.userID.toString()).catch(() => null)) ||
 				this.member.client.user;
 
-			let userCharacter = '';
+			let userCharacter: (typeof characters)[number] = 'Wumpus.png';
 
-			if (characters.includes(`${discordUser.username}.png`)) {
-				userCharacter = `${discordUser.username}.png`;
+			if (characters.includes(`${discordUser.username}.png` as any)) {
+				userCharacter = `${discordUser.username}.png` as any;
 			} else if (discordUser.bot) {
 				userCharacter = 'Clyde.png';
 			} else {
@@ -70,7 +67,7 @@ export class LeaderboardCanvas {
 			context.fillStyle = backgroundColor;
 			context.fillRect(0, 0, canvas.width, canvas.height);
 
-			const avatar = await loadImage(joinPaths(__dirname, '../assets/characters/', userCharacter));
+			const avatar = await loadImage(characterFiles[userCharacter]);
 
 			context.drawImage(avatar, 100, 110 + offset, 120, 120);
 

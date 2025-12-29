@@ -24,3 +24,13 @@ export const discordBotID = process.env.DISCORD_ID as string;
 export const links = {
 	invite: `https://discord.com/oauth2/authorize?client_id=${discordBotID}&permissions=8&scope=bot%20applications.commands`
 };
+
+export const characters = [
+	'Cap.png',
+	'Clyde.png',
+	'Froggy.png',
+	'Gusi.png',
+	'Nelly.png',
+	'Phibi.png',
+	'Wumpus.png'
+] as const;

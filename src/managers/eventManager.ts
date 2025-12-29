@@ -1,34 +1,10 @@
-import { existsSync, readdirSync } from 'fs';
-import { join } from 'path';
 import type { ClientEvents } from 'discord.js';
 import type { IClientEvent } from '../classes/ClientEvent';
+import eventsIndex from '../events/index';
 
 export class EventManager {
 	getEvents(): IClientEvent<keyof ClientEvents>[] {
-		const events: IClientEvent<keyof ClientEvents>[] = [];
-
-		function searchEvent(path: string) {
-			const eventsPath = join(__dirname, path);
-			const eventsNames = existsSync(eventsPath) ? readdirSync(eventsPath) : [];
-
-			for (const eventName of eventsNames) {
-				if (eventName.includes('.event')) {
-					const {
-						default: event
-					}: {
-						default: IClientEvent<keyof ClientEvents>;
-					} = require(join(eventsPath, eventName));
-
-					events.push(event);
-				} else {
-					searchEvent(`${path}${eventName}/`);
-				}
-			}
-		}
-
-		searchEvent('../events/');
-
-		return events;
+		return Object.values(eventsIndex) as IClientEvent<keyof ClientEvents>[];
 	}
 
 	getEvent(

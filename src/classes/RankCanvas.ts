@@ -1,14 +1,13 @@
-import { readdirSync } from 'fs';
-import { join as joinPaths } from 'path';
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 import type { GuildMember } from 'discord.js';
-import { avatarsColors, levelingConfig } from '../constants';
+import { asapFontFile, backgroundImageFile, characterFiles } from '../assets';
+import { avatarsColors, characters, levelingConfig } from '../constants';
 import { roundRect } from '../functions/roundRect';
 import { setFont } from '../functions/setFont';
 import { userModel } from '../schemas/UserModel';
 import { Util } from './Util';
 
-GlobalFonts.registerFromPath(joinPaths(__dirname, '../assets/fonts/Asap.ttf'), 'asap');
+GlobalFonts.register(asapFontFile, 'asap');
 
 export class LevelCanvas {
 	private readonly member: GuildMember;
@@ -23,7 +22,7 @@ export class LevelCanvas {
 
 		context.save();
 
-		const backgroundImage = await loadImage(joinPaths(__dirname, '../assets/images/levelBackground.png'));
+		const backgroundImage = await loadImage(backgroundImageFile);
 
 		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
@@ -35,12 +34,10 @@ export class LevelCanvas {
 
 		const userData = localData.find((data) => data.userID === this.member.user.id);
 
-		const characters = readdirSync(joinPaths(__dirname, '../assets/characters/'));
+		let userCharacter: (typeof characters)[number] = 'Wumpus.png';
 
-		let userCharacter = '';
-
-		if (characters.includes(`${this.member.user.username}.png`)) {
-			userCharacter = `${this.member.user.username}.png`;
+		if (characters.includes(`${this.member.user.username}.png` as any)) {
+			userCharacter = `${this.member.user.username}.png` as any;
 		} else if (this.member.user.bot) {
 			userCharacter = 'Clyde.png';
 		} else {
@@ -75,7 +72,7 @@ export class LevelCanvas {
 		context.fillStyle = backgroundColor;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
-		const avatar = await loadImage(joinPaths(__dirname, '../assets/characters/', userCharacter));
+		const avatar = await loadImage(characterFiles[userCharacter]);
 
 		context.drawImage(avatar, 50, 50, 150, 150);
 
