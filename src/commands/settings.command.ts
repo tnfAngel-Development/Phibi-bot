@@ -1,7 +1,6 @@
-import { readdirSync } from 'fs';
-import { join as joinPaths } from 'path';
 import { AttachmentBuilder, GuildMember, Role, SlashCommandBuilder } from 'discord.js';
 import { Command } from '../classes/Command';
+import { characters } from '../constants';
 import { levelRoleModel } from '../schemas/LevelRole';
 import { userModel } from '../schemas/UserModel';
 
@@ -25,7 +24,7 @@ export default new Command({
 									.setDescription('The new character you will have')
 									.setRequired(true)
 									.addChoices(
-										...readdirSync(joinPaths(__dirname, '../assets/characters/')).map((char) => ({
+										...characters.map((char) => ({
 											name: char.split('.')[0]!,
 											value: char.split('.')[0]!
 										}))

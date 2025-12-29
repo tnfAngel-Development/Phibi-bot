@@ -22,11 +22,13 @@ export class Client extends DiscordClient {
 
 		const rest = new REST().setToken(token);
 
+		const commands = this.managers.commandManager.getCommands().map((cmd) => cmd.getConfig({ client: this }).slash);
+
 		await rest.put(Routes.applicationCommands(process.env['DISCORD_ID'] ?? ''), {
-			body: [...this.managers.commandManager.getCommands().map((cmd) => cmd.getConfig({ client: this }).slash)]
+			body: [...commands]
 		});
 
-		console.log('Posted commands');
+		console.log(`Posted ${commands.length} commands`);
 
 		super.login(token);
 	}

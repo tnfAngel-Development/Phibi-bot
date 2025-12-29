@@ -6,24 +6,23 @@
 	"private": true,
 	"scripts": {
 		"build": "bun run build:bundle",
-		"build:bundle": "bun build --target bun --format esm --minify --outdir ./dist/ ./src/index.ts",
-		"build:standalone": "NODE_ENV=production bun build --compile --target bun --format esm --minify --outfile ./dist/phibi ./src/index.ts",
+		"build:bundle": "NODE_ENV=production bun run generateExports && bun build --target bun --format esm --minify --outdir ./dist/ ./src/index.ts",
+		"build:standalone": "NODE_ENV=production bun run generateExports &&  bun build --compile --target bun --format esm --minify --outfile ./dist/phibi ./src/index.ts",
 		"start": "NODE_ENV=production bun src/index.ts",
 		"dev": "NODE_ENV=development bun src/index.ts",
 		"production:build": "bun run build:standalone",
 		"lint": "bun run lint:biome && bun run lint:tsc",
 		"lint:biome": "bun biome check --write .",
-		"lint:tsc": "bun tsc --noEmit"
+		"lint:tsc": "bun tsc --noEmit",
+		"generateExports": "NODE_ENV=production bun run src/scripts/generateExports.ts"
 	},
-	"keywords": [
-		"Phibi Bot"
-	],
+	"keywords": ["Phibi Bot"],
 	"author": "tnfAngel",
 	"license": "GPL-2.0-only",
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.59",
 		"colors": "^1.4.0",
-		"discord.js": "^14.25.1",
+		"discord.js": "14.25.1",
 		"mongoose": "^8.20.4",
 		"tslib": "^2.8.1",
 		"winston": "^3.19.0"
@@ -42,7 +41,5 @@
 		"url": "https://github.com/tnfAngel-Development/Phibi-bot/issues"
 	},
 	"homepage": "https://github.com/tnfAngel-Development/Phibi-bot#readme",
-	"trustedDependencies": [
-		"@biomejs/biome"
-	]
+	"trustedDependencies": ["@biomejs/biome"]
 }
