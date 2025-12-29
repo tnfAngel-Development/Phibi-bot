@@ -1,8 +1,13 @@
-import { AttachmentBuilder, GuildMember, Role, SlashCommandBuilder } from 'discord.js';
+import { AttachmentBuilder, GuildMember, PermissionsBitField, Role, SlashCommandBuilder } from 'discord.js';
 import { Command } from '../classes/Command';
 import { characters } from '../constants';
 import { levelRoleModel } from '../schemas/LevelRole';
 import { userModel } from '../schemas/UserModel';
+
+const characterChoices = characters.map((char) => ({
+	name: char.split('.')[0]!,
+	value: char.split('.')[0]!
+}));
 
 export default new Command({
 	id: 'settings',
@@ -23,12 +28,7 @@ export default new Command({
 									.setName('new_character')
 									.setDescription('The new character you will have')
 									.setRequired(true)
-									.addChoices(
-										...characters.map((char) => ({
-											name: char.split('.')[0]!,
-											value: char.split('.')[0]!
-										}))
-									)
+									.addChoices(...characterChoices)
 							)
 					)
 			)
@@ -132,6 +132,12 @@ export default new Command({
 				const level = interaction.options.getInteger('level', true);
 				const role = interaction.options.getRole('role', true);
 
+				if (!member.permissions.has(PermissionsBitField.Flags.ManageGuild))
+					return interaction.editReply({
+						content:
+							"You don't have permission to add this role. The **Manage Server** permission is required."
+					});
+
 				if (!(role instanceof Role))
 					return interaction.editReply({
 						content: 'Invalid role.'
@@ -139,7 +145,7 @@ export default new Command({
 
 				if (level < 1)
 					return interaction.editReply({
-						content: 'The level provided must be greater than 100.'
+						content: 'The level provided must be greater than 1.'
 					});
 
 				if (level > 1000)
@@ -233,6 +239,12 @@ export default new Command({
 				const level = interaction.options.getInteger('level', true);
 				const role = interaction.options.getRole('role', true);
 
+				if (!member.permissions.has(PermissionsBitField.Flags.ManageGuild))
+					return interaction.editReply({
+						content:
+							"You don't have permission to remove this role. The **Manage Server** permission is required."
+					});
+
 				if (!(role instanceof Role))
 					return interaction.editReply({
 						content: 'Invalid role.'
@@ -240,7 +252,7 @@ export default new Command({
 
 				if (level < 1)
 					return interaction.editReply({
-						content: 'The level provided must be greater than 100.'
+						content: 'The level provided must be greater than 1.'
 					});
 
 				if (level > 1000)
